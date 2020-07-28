@@ -7,6 +7,7 @@ app.use(express.json());
 
 // array DB
 const scraps = [];
+
 // routes
 app.get("/", (req, res) => {
   const { name } = req.query;
