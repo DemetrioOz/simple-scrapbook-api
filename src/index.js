@@ -8,10 +8,6 @@ app.use(express.json());
 // array DB
 const scraps = [];
 // routes
-// app.get("/scraps", (req, res) => {
-//   return res.json(scraps);
-// });
-
 app.get("/", (req, res) => {
   const { name } = req.query;
 
@@ -22,17 +18,19 @@ app.get("/", (req, res) => {
   return res.json(results);
 });
 
-app.post("/:id", (req, res) => {
-  const { title, owner } = req.body;
-  const scraps = { id: uuid(), title, owner };
+app.post("/", (req, res) => {
+  const { name, message } = req.body;
+  const scrap = { id: uuid(), name, message };
 
-  scraps.push(project);
+  scraps.push(scrap);
+
+  return res.json(scrap);
 });
 
 app.put("/:id", (req, res) => {
   const { id } = req.params;
 
-  const { title, owner } = req.body;
+  const { name, message } = req.body;
 
   const scrapIndex = scraps.findIndex((scrap) => scrap.id === id);
 
@@ -40,7 +38,7 @@ app.put("/:id", (req, res) => {
     return res.status(400).json({ error: "Scrap not found." });
   }
 
-  const scrap = { id, title, owner };
+  const scrap = { id, name, message };
 
   scraps[scrapIndex] = scrap;
 
@@ -55,6 +53,10 @@ app.delete("/:id", (req, res) => {
   if (scrapIndex < 0) {
     return res.status(400).json({ error: "Scrap not found." });
   }
+
+  scraps.splice(scrapIndex, 1);
+
+  return res.status(204).send();
 });
 
 /// server port
