@@ -1,14 +1,15 @@
 {
   "name": "simple_scrapbook-api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/index.js",
   "repository": "https://prod.liveshare.vsengsaas.visualstudio.com/join?85287840758090F8F43524A9BEE7F2081156",
   "author": "<you@example.com>",
   "scripts": {
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon"
   },
   "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "uuid": "^8.3.0"
   }
 }
