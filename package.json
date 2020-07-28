@@ -1,0 +1,11 @@
+{
+  "name": "simple_scrapbook-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://prod.liveshare.vsengsaas.visualstudio.com/join?85287840758090F8F43524A9BEE7F2081156",
+  "author": "<you@example.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
