@@ -1,3 +1,16 @@
+//middleware
+function logRequests(request, response, next) {
+  const { method, url } = request;
+  const longLabel = `[${method.toUpperCase()}] ${url} `;
+  //   console.log(logLabel);
+  console.time(logLabel);
+
+  next(); //Próximo middleware
+
+  console.timeEnd(logLabel);
+}
+
+app.use(logRequests);
 /// dependencies
 const express = require("express");
 const app = express();
