@@ -1,25 +1,47 @@
-//middleware
-function logRequests(request, response, next) {
-  const { method, url } = request;
-  const longLabel = `[${method.toUpperCase()}] ${url} `;
-  //   console.log(logLabel);
-  console.time(logLabel);
-
-  next(); //Próximo middleware
-
-  console.timeEnd(logLabel);
-}
-
-app.use(logRequests);
 /// dependencies
 const express = require("express");
 const app = express();
-const { uuid } = require("uuidv4");
+const { uuid, isUuid } = require("uuidv4");
+const { response } = require("express");
 
 app.use(express.json());
 
 // array DB
 const scraps = [];
+
+// middlewares
+
+function logRequests(req, res, next) {
+  const { method, url } = req;
+
+  const logLabel = `[${method.toUpperCase()}] ${url}`;
+
+  console.time(logLabel);
+  next();
+  console.timeEnd(logLabel);
+}
+
+function validateScrapId(req, res, next) {
+  const { id } = req.params;
+
+  if (!isUuid(id)) {
+    return res.status(400).json({ error: `Param sent is not a valid UUid` });
+  }
+  next();
+}
+
+function validateScrapInfo(req, res, next) {
+  const { name, message } = req.body;
+
+  if (name !== "" && message !== "") {
+    next();
+  } else {
+    return res.status(400).json({ error: `Scrap sent is empty` });
+  }
+}
+
+app.use(logRequests);
+app.use("/:id", validateScrapId);
 
 // routes
 app.get("/", (req, res) => {
@@ -32,7 +54,7 @@ app.get("/", (req, res) => {
   return res.json(results);
 });
 
-app.post("/", (req, res) => {
+app.post("/", validateScrapInfo, (req, res) => {
   const { name, message } = req.body;
   const scrap = { id: uuid(), name, message };
 
