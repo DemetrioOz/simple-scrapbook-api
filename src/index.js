@@ -1,9 +1,11 @@
 /// dependencies
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const { uuid, isUuid } = require("uuidv4");
 const { response } = require("express");
 
+app.use(cors());
 app.use(express.json());
 
 // array DB
@@ -31,9 +33,9 @@ function validateScrapId(req, res, next) {
 }
 
 function validateScrapInfo(req, res, next) {
-  const { name, message } = req.body;
+  const { title, message } = req.body;
 
-  if (name !== "" && message !== "") {
+  if (title !== "" && message !== "") {
     next();
   } else {
     return res.status(400).json({ error: `Scrap sent is empty` });
@@ -45,18 +47,18 @@ app.use("/:id", validateScrapId);
 
 // routes
 app.get("/", (req, res) => {
-  const { name } = req.query;
+  const { title } = req.query;
 
-  const results = name
-    ? scraps.filter((scrap) => scrap.name.includes(name))
+  const results = title
+    ? scraps.filter((scrap) => scrap.title.includes(title))
     : scraps;
 
   return res.json(results);
 });
 
 app.post("/", validateScrapInfo, (req, res) => {
-  const { name, message } = req.body;
-  const scrap = { id: uuid(), name, message };
+  const { title, message } = req.body;
+  const scrap = { id: uuid(), title, message };
 
   scraps.push(scrap);
 
@@ -66,7 +68,7 @@ app.post("/", validateScrapInfo, (req, res) => {
 app.put("/:id", (req, res) => {
   const { id } = req.params;
 
-  const { name, message } = req.body;
+  const { title, message } = req.body;
 
   const scrapIndex = scraps.findIndex((scrap) => scrap.id === id);
 
@@ -74,7 +76,7 @@ app.put("/:id", (req, res) => {
     return res.status(400).json({ error: "Scrap not found." });
   }
 
-  const scrap = { id, name, message };
+  const scrap = { id, title, message };
 
   scraps[scrapIndex] = scrap;
 
