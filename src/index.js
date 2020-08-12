@@ -1,4 +1,6 @@
 /// dependencies
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -97,8 +99,10 @@ app.delete("/:id", (req, res) => {
   return res.status(204).send();
 });
 
-/// server port
-const port = 3333;
+/// port
+const port = process.env.PORT || 3333;
 app.listen(port, () => {
   console.log(`server running in localhost:${port}`);
 });
+
+// process.env.DB_PASSWORD

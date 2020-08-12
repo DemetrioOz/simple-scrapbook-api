@@ -5,13 +5,17 @@
   "repository": "https://prod.liveshare.vsengsaas.visualstudio.com/join?85287840758090F8F43524A9BEE7F2081156",
   "author": "<you@example.com>",
   "scripts": {
+    "start": "node src/index.js",
     "dev": "nodemon src/index.js"
   },
   "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "nodemon": "^2.0.4",
     "uuid": "^8.3.0",
     "uuidv4": "^6.2.0"
   }
